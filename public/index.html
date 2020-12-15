@@ -1,0 +1,64 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Library</title>
+
+    <link rel="stylesheet" href="assets/css/tailwind.css">
+    <script src="https://kit.fontawesome.com/92b88ff8f4.js" crossorigin="anonymous"></script>
+    <script type="module" defer src="assets/javascript/main.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-analytics.js"></script>
+</head>
+<body class="container p-5 mx-auto">
+    <header class="container">
+        <div class="flex items-center justify-between h-10 mx-auto header-top top">
+            <div class="text-3xl font-bold"><i class="text-pink-600 far fa-heart"></i> books</div>
+    
+            <div class="flex flex-row items-center justify-between w-1/2 h-10 px-4 bg-gray-100 rounded-lg search">
+                <input class="w-full font-bold text-gray-400 bg-gray-100 rounded-lg outline-none" type="text" placeholder="Search by title or author">
+                <i class="pl-2 fas fa-search"></i>
+            </div>
+    
+            <button id="sign-in" class="w-32 bg-white rounded-md shadow-md h-9">Sign In</button>
+            
+            <div id="user" class="relative hidden">
+                <button id="user-button" class="self-end overflow-hidden border-2 border-gray-200 rounded-full w-11 h-11">
+                    <img class="object-cover w-full h-full" src="" alt="" class="user-pic">
+                </button>
+                <button class="fixed top-0 bottom-0 left-0 right-0 hidden w-full h-full bg-pink-900"></button>
+                <div id="user-settings" class="absolute right-0 hidden mt-2 rounded-md shadow-md w-36">
+                    <a id="sign-out" class="block px-4 py-2 text-sm text-gray-800 bg-gray-100 rounded-md hover:bg-indigo-500 hover:text-white" href="#">Sign Out</a>
+                </div>
+            </div>
+        </div>
+    
+        <nav class="flex justify-center bottom">
+            <ul class="flex">
+                <li class="m-5 text-xl text-gray-400 hover:text-indigo-500">All Books</li>
+                <li class="m-5 text-xl text-gray-400 hover:text-indigo-500">Planned</li>
+                <li class="m-5 text-xl text-gray-400 hover:text-indigo-500">Reading</li>
+                <li class="m-5 text-xl text-gray-400 hover:text-indigo-500">Dropped</li>
+                <li class="m-5 text-xl text-gray-400 hover:text-indigo-500">Completed</li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container mt-10 content">
+        <h1 id="category-name" class="my-5 text-3xl font-semibold text-darkGray">All Books</h1>
+        
+        <div id="modal-backdrop" class="fixed inset-0 flex items-center justify-center hidden bg-white bg-opacity-75">
+            <div id="modal" class="container absolute flex flex-wrap w-1/2 px-5 bg-white shadow-md rounded-xl gap-x-3 gap-y-3 py-7"></div>
+        </div>
+
+        <div class="grid gap-8 books auto-rows-min grid-cols-fit-40">
+            <div id="add-book" class="flex items-center justify-center w-full bg-gray-200 h-60 rounded-xl">
+                <i class="text-5xl text-white fas fa-plus"></i>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

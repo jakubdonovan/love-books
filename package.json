@@ -4,14 +4,17 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "postcss assets/css/tailwind.css -o assets/css/tailwindprocessed.css"
+    "tw:build": "postcss src/tailwind.css -o public/assets/css/tailwind.css",
+    "tw:watch": "watch 'npm run tw:build' src" 
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "autoprefixer": "^10.1.0",
+    "postcss": "^8.2.1",
     "postcss-cli": "^8.3.0",
-    "tailwindcss": "^2.0.1"
+    "tailwindcss": "^2.0.1",
+    "watch": "^1.0.2"
   }
 }

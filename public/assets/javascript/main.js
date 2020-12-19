@@ -12,7 +12,7 @@ let setCoverField = modal.querySelector('#set-cover')
 let setAuthorField = modal.querySelector('#set-author')
 let setStatusField = modal.querySelector('#set-status')
 
-let library = []
+let library = [{ title:'Solo Leveling', cover:"https://cdn1.booknode.com/book_cover/1163/full/solo-leveling-1162604.jpg", author:"Chugong", status:"Completed"}]
 
 // LOCAL STORAGE
 const checkLocalStorage = () => {
@@ -83,10 +83,6 @@ const deleteFromDB = (title) => {
 const updateBookStatusInDB = (title, status) => firebase.database().ref(`library/${title}`).update({ Status: `${status}` })
 
 signInButton.addEventListener('click', googleLogin)
-
-
-// mobile nav event
-document.querySelector('.hamburger').addEventListener('click', () => document.querySelector('.mobile-nav').classList.toggle('hidden'))
 
 
 class Book {
@@ -312,6 +308,9 @@ const bookSearch = e => {
     populateGrid(matchingBook)
 }
 
+
+// mobile nav event
+document.querySelector('.hamburger').addEventListener('click', () => document.querySelector('.mobile-nav').classList.toggle('hidden'))
 
 // search event listener
 searchInput.addEventListener('input', bookSearch)

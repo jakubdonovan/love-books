@@ -5,60 +5,117 @@
     <title>Book Library</title>
 
     <link rel="stylesheet" href="assets/css/tailwind.css">
-    <script src="https://kit.fontawesome.com/92b88ff8f4.js" crossorigin="anonymous"></script>
     <script type="module" defer src="assets/javascript/main.js"></script>
+    <script src="https://kit.fontawesome.com/92b88ff8f4.js" crossorigin="anonymous"></script>
 
     <script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-database.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-analytics.js"></script>
 </head>
-<body class="container p-5 mx-auto">
-    <header class="container">
-        <div class="flex items-center justify-between h-10 mx-auto header-top top">
-            <div class="text-3xl font-bold"><i class="text-pink-600 far fa-heart"></i> books</div>
-    
-            <div class="flex flex-row items-center justify-between w-1/2 h-10 px-4 bg-gray-100 rounded-lg search">
-                <input class="w-full font-bold text-gray-400 bg-gray-100 rounded-lg outline-none" type="text" placeholder="Search by title or author">
-                <i class="pl-2 fas fa-search"></i>
-            </div>
-    
-            <button id="sign-in" class="w-32 bg-white rounded-md shadow-md h-9">Sign In</button>
-            
-            <div id="user" class="relative hidden">
-                <button id="user-button" class="self-end overflow-hidden border-2 border-gray-200 rounded-full w-11 h-11">
-                    <img class="object-cover w-full h-full" src="" alt="" class="user-pic">
-                </button>
-                <button class="fixed top-0 bottom-0 left-0 right-0 hidden w-full h-full bg-pink-900"></button>
-                <div id="user-settings" class="absolute right-0 hidden mt-2 rounded-md shadow-md w-36">
-                    <a id="sign-out" class="block px-4 py-2 text-sm text-gray-800 bg-gray-100 rounded-md hover:bg-indigo-500 hover:text-white" href="#">Sign Out</a>
+<body>
+    <header">
+        <div class="h-auto px-2 py-3 mx-auto max-w-7xl sm:px-6 lg:px-8">
+            <div class="relative flex items-center justify-between">
+                <div class="flex justify-between flex-1 sm:items-stretch sm:justify-between">
+
+                    <!-- MOBILE HAMBURGER MENU -->
+                    <div class="inset-y-0 left-0 flex items-center mr-2 sm:hidden">
+                        <!-- Mobile menu button-->
+                        <button class="inline-flex items-center justify-center p-2 text-gray-400 rounded-md hamburger hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+                            aria-expanded="false">
+                            <span class="sr-only">Open main menu</span>
+
+                            <!-- Icon when menu is closed. -->
+                            <!-- Heroicon name: menu
+                                                    Menu open: "hidden", Menu closed: "block" -->
+                            <svg class="block w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                            </svg>
+
+                            <!-- Icon when menu is open. -->
+                            <!--Heroicon name: x
+                                                Menu open: "block", Menu closed: "hidden"-->
+                            <svg class="hidden w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
+
+                    <!-- LOGO -->
+                    <div class="flex items-center flex-shrink-0 h-10">
+                        <a href="./index.html"><img class="block w-auto h-8 lg:hidden" src="./assets/media/heart.svg" alt="love"></a>
+                        <a href="./index.html"><img class="hidden w-auto h-8 lg:block" src="./assets/media/love books.svg" alt="books"></a>
+                    </div>
+
+                    <div class="flex-col flex-shrink-0 hidden mx-1 sm:flex">
+                        <!-- SEARCH BAR -->
+                        <div>
+                            <div class="flex items-center justify-between h-10 px-4 bg-gray-100 rounded-lg search">
+                                <input class="w-full font-bold text-gray-400 bg-gray-100 rounded-lg outline-none" type="text"
+                                    placeholder="Search by title or author">
+                                <i class="pl-2 fas fa-search"></i>
+                            </div>
+                        </div>
+                        <!-- NAV -->
+                        <nav>
+                            <ul class="flex justify-center pt-3 space-x-4">
+                                <li class="px-3 py-2 text-base font-medium text-gray-400 hover:text-indigo-500">All Books</li>
+                                <li class="px-3 py-2 text-base font-medium text-gray-400 hover:text-indigo-500">Planned</li>
+                                <li class="px-3 py-2 text-base font-medium text-gray-400 hover:text-indigo-500">Reading</li>
+                                <li class="px-3 py-2 text-base font-medium text-gray-400 hover:text-indigo-500">Dropped</li>
+                                <li class="px-3 py-2 text-base font-medium text-gray-400 hover:text-indigo-500">Completed</li>
+                            </ul>
+                        </nav>
+                    </div>
+
+                    <!-- SIGN IN BUTTON -->
+                    <button id="sign-in" class="flex items-center h-10 px-1 sm:static sm:inset-auto"><i class="text-xl text-gray-500 hover:text-indigo-500 fas fa-sign-in-alt"></i></button>
+                    <!-- USER -->
+                    <div id="user" class="relative items-center justify-center hidden">
+                        <button id="user-button" class="self-end w-10 h-10 overflow-hidden border-2 border-gray-200 rounded-full">
+                            <img class="object-cover w-full h-full" src="" alt="">
+                        </button>
+
+                        <div id="user-settings" class="absolute right-0 hidden mt-2 overflow-hidden bg-white divide-y divide-gray-200 rounded-md shadow-md w-30">
+                            <a id="user-email" class="block px-4 py-2 text-sm text-gray-900 truncate rounded-t-md hover:bg-gray-100" href="#"><span class="block text-xs font-semibold">Logged in as:</span></a>
+                            <a id="sign-out" class="block px-4 py-2 text-sm text-gray-900 truncate rounded-b-md hover:bg-gray-100" href="#">Sign Out</a>
+                        </div>
+                    </div>
+                    
                 </div>
             </div>
         </div>
-    
-        <nav class="flex justify-center bottom">
-            <ul class="flex">
-                <li class="m-5 text-xl text-gray-400 hover:text-indigo-500">All Books</li>
-                <li class="m-5 text-xl text-gray-400 hover:text-indigo-500">Planned</li>
-                <li class="m-5 text-xl text-gray-400 hover:text-indigo-500">Reading</li>
-                <li class="m-5 text-xl text-gray-400 hover:text-indigo-500">Dropped</li>
-                <li class="m-5 text-xl text-gray-400 hover:text-indigo-500">Completed</li>
-            </ul>
-        </nav>
+        
+
+        <!-- MOBILE NAV HIDDEN --------------------------------------------------------------------------------------->
+        <div class="hidden mobile-nav sm:hidden">
+            <div class="px-2 py-2 space-y-1 divide-y divide-gray-200 shadow-md">
+                <a href="#" class="block px-3 py-1 text-base font-medium text-gray-900 rounded-md hover:bg-gray-100">All Books</a>
+                <a href="#" class="block px-3 py-1 text-base font-medium text-gray-900 rounded-md hover:bg-gray-100">Planned</a>
+                <a href="#" class="block px-3 py-1 text-base font-medium text-gray-900 rounded-md hover:bg-gray-100">Reading</a>
+                <a href="#" class="block px-3 py-1 text-base font-medium text-gray-900 rounded-md hover:bg-gray-100">Dropped</a>
+                <a href="#" class="block px-3 py-1 text-base font-medium text-gray-900 rounded-md hover:bg-gray-100">Completed</a>
+            </div>
+        </div>
     </header>
 
-    <div class="container mt-10 content">
+    <div class="container px-5 mx-auto mt-10 content max-w-7xl sm:px-6 lg:px-8">        
         <h1 id="category-name" class="my-5 text-3xl font-semibold text-darkGray">All Books</h1>
         
         <div id="modal-backdrop" class="fixed inset-0 flex items-center justify-center hidden bg-white bg-opacity-75">
-            <div id="modal" class="container absolute flex flex-wrap w-1/2 px-5 bg-white shadow-md rounded-xl gap-x-3 gap-y-3 py-7"></div>
+            <div id="modal" class="absolute flex flex-wrap max-w-lg gap-3 px-5 py-3 bg-white shadow-md h-min rounded-xl">
+
+            </div>
         </div>
 
-        <div class="grid gap-8 books auto-rows-min grid-cols-fit-40">
+        <div class="grid justify-center gap-8 books auto-rows-min grid-cols-fit-40 sm:justify-start">
             <div id="add-book" class="flex items-center justify-center w-full bg-gray-200 h-60 rounded-xl">
                 <i class="text-5xl text-white fas fa-plus"></i>
             </div>
-        </div>
+        </div>        
     </div>
 </body>
 </html>

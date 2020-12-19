@@ -53,6 +53,7 @@ const googleLogin = () => {
             signInButton.classList.toggle('hidden')
             userButton.classList.toggle('hidden')
             document.querySelector('#user-button img').src = user.photoURL
+            document.querySelector('#user-email').innerHTML += user.email
             
             userButton.addEventListener('click', () => {
                 userButton.querySelector('#user-settings').classList.toggle('hidden')
@@ -63,7 +64,6 @@ const googleLogin = () => {
                     signInButton.classList.toggle('hidden')
                 })
             })
-
         }
     })
 }
@@ -85,6 +85,8 @@ const updateBookStatusInDB = (title, status) => firebase.database().ref(`library
 signInButton.addEventListener('click', googleLogin)
 
 
+// mobile nav event
+document.querySelector('.hamburger').addEventListener('click', () => document.querySelector('.mobile-nav').classList.toggle('hidden'))
 
 
 class Book {
@@ -236,33 +238,36 @@ const htmlGenerator = type => {
     // add book modal
     if (type === 'add book') {
         const template = `
-        <p class="title w-full text-xl font-semibold text-center text-red-600">Add Book</p>
-
-        <div class="cover flex-1 h-56 w-min">
-            <img class="h-full" src="" alt="">
+        <p class="w-full text-xl font-semibold text-center text-darkGray title">Add Book</p>
+                
+        <div class="flex w-full h-52 gap-x-1">
+            <div class="h-full cover">
+                <img class="h-full" src="" alt="">
+            </div>
+        
+            <form class="flex flex-col justify-between flex-1 h-full info-add">
+                <input id="set-title"
+                    class="w-full p-1 font-bold text-gray-500 truncate border-2 border-gray-300 rounded-md outline-none"
+                    type="text" placeholder="Title" required>
+                <input id="set-cover"
+                    class="w-full p-1 font-bold text-gray-500 truncate border-2 border-gray-300 rounded-md outline-none appearance-none"
+                    type="text" placeholder="Cover URL">
+                <input id="set-author"
+                    class="w-full p-1 font-bold text-gray-500 truncate border-2 border-gray-300 rounded-md outline-none"
+                    type="text" placeholder="Author">
+                <select id="set-status"
+                    class="w-full p-1 font-bold text-gray-500 border-2 border-gray-300 rounded-md outline-none appearance-none"
+                    required>
+                    <option disabled selected hidden>Status</option>
+                    <option value="Planned">Planned</option>
+                    <option value="Reading">Reading</option>
+                    <option value="Dropped">Dropped</option>
+                    <option value="Completed">Completed</option>
+                </select>
+                <button class="block w-full p-1 font-bold text-white bg-red-500 border-2 border-gray-300 rounded-md"
+                    type="submit">Add</button>
+            </form>
         </div>
-
-        <form class="info-add flex-col w-80 flex-3">
-            <input id="set-title"
-                class="w-full p-1 my-1 font-bold text-gray-500 border-2 border-gray-300 rounded-md outline-none" type="text"
-                placeholder="Title" required>
-            <input id="set-cover"
-                class="w-full p-1 my-1 font-bold text-gray-500 border-2 border-gray-300 rounded-md outline-none appearance-none"
-                type="text" placeholder="Cover URL">
-            <input id="set-author"
-                class="w-full p-1 my-1 font-bold text-gray-500 border-2 border-gray-300 rounded-md outline-none" type="text"
-                placeholder="Author">
-            <select id="set-status" class="w-full p-1 my-1 font-bold text-gray-500 border-2 border-gray-300 rounded-md outline-none appearance-none"
-                required>
-                <option disabled selected hidden>Status</option>
-                <option value="Planned">Planned</option>
-                <option value="Reading">Reading</option>
-                <option value="Dropped">Dropped</option>
-                <option value="Completed">Completed</option>
-            </select>
-            <button class="block w-full p-1 my-1 font-bold text-white bg-red-500 border-2 border-gray-300 rounded-md"
-                type="submit">Add</button>
-        </form>
         `
         modal.innerHTML = template
     }
@@ -270,23 +275,25 @@ const htmlGenerator = type => {
     // view book modal
     if (type === 'view book') {
         const template = `
-        <div class="flex-1 h-56 w-min cover">
-            <img class="h-full" src="" alt="">
-        </div>
+        <div class="flex w-full h-52 gap-2 sm:gap-5">
+            <div class="h-full cover">
+                <img class="h-full" src="" alt="">
+            </div>
 
-        <div class="flex flex-col w-80 info-view flex-3">
-            <button class="self-end w-20 text-white bg-red-500 rounded-md view-delete">Delete</button>
-            <p class="text-xl font-semibold view-title text-veryDarkGray"></p>
-            <p class="view-author text-lightGray"></p>
-            <select
-                class="w-32 mt-1 text-sm text-center bg-white shadow-md outline-none appearance-none roun ded-md h-7 text-darkGray view-status"
-                required>
-                <option disabled selected hidden>Status</option>
-                <option value="Planned">Planned</option>
-                <option value="Reading">Reading</option>
-                <option value="Dropped">Dropped</option>
-                <option value="Completed">Completed</option>
-            </select>
+            <div class="flex flex-col w-80 info-view flex-1 sm:flex-3">
+                <button class="self-end w-20 text-white bg-red-500 rounded-md view-delete">Delete</button>
+                <p class="text-xl font-semibold view-title text-veryDarkGray"></p>
+                <p class="view-author text-lightGray"></p>
+                <select
+                    class="w-32 mt-1 text-sm text-center bg-white shadow-md outline-none appearance-none roun ded-md h-7 text-darkGray view-status"
+                    required>
+                    <option disabled selected hidden>Status</option>
+                    <option value="Planned">Planned</option>
+                    <option value="Reading">Reading</option>
+                    <option value="Dropped">Dropped</option>
+                    <option value="Completed">Completed</option>
+                </select>
+            </div>
         </div>
         `
         modal.innerHTML = template
